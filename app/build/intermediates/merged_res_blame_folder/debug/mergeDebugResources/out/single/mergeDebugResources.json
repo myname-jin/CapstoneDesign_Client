@@ -1,102 +1,118 @@
 [
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\mipmap-xxhdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\drawable\\ic_launcher_foreground.xml"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\mipmap-hdpi\\ic_launcher_round.webp"
+        "merged": "com.minyook.overnight.app-debug-42:/layout_activity_onboarding.xml.flat",
+        "source": "com.minyook.overnight.app-main-44:/layout/activity_onboarding.xml"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\drawable_ic_launcher_background.xml.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\drawable\\ic_launcher_background.xml"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\mipmap-xxhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\xml_data_extraction_rules.xml.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\xml\\data_extraction_rules.xml"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\drawable_ic_person.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\drawable\\ic_person.xml"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\layout_activity_main.xml.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\layout\\activity_main.xml"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\menu_bottom_nav_menu.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\menu\\bottom_nav_menu.xml"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\mipmap-xhdpi\\ic_launcher_round.webp"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\mipmap-mdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\drawable_ic_person.xml.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\drawable\\ic_person.xml"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\mipmap-mdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\xml\\backup_rules.xml"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\mipmap-anydpi_ic_launcher.xml.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\mipmap-anydpi\\ic_launcher.xml"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\drawable_ic_folder.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\drawable\\ic_folder.xml"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\layout_activity_overnight.xml.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\layout\\activity_overnight.xml"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\xml\\data_extraction_rules.xml"
     },
     {
-        "merged": "com.minyook.overnight.app-debug-36:/layout_activity_main.xml.flat",
-        "source": "com.minyook.overnight.app-main-38:/layout/activity_main.xml"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\drawable_ic_home.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\drawable\\ic_home.xml"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\drawable_ic_home.xml.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\drawable\\ic_home.xml"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\mipmap-anydpi\\ic_launcher_round.xml"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\mipmap-hdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\mipmap-xxhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\mipmap-mdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\menu_bottom_nav_menu.xml.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\menu\\bottom_nav_menu.xml"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\layout_activity_overnight.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\layout\\activity_overnight.xml"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\drawable_ic_launcher_foreground.xml.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\drawable\\ic_launcher_foreground.xml"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\mipmap-anydpi\\ic_launcher.xml"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\mipmap-anydpi_ic_launcher_round.xml.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\mipmap-anydpi\\ic_launcher_round.xml"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\mipmap-xxxhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\mipmap-xxxhdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\layout_fragment_onboarding.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\layout\\fragment_onboarding.xml"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\layout_item_recording.xml.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\layout\\item_recording.xml"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\layout_activity_onboarding.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\layout\\activity_onboarding.xml"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\drawable_ic_add.xml.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\drawable\\ic_add.xml"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\layout_item_recording.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\layout\\item_recording.xml"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\xml_backup_rules.xml.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\xml\\backup_rules.xml"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\drawable_ic_overnight_logo.png.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\drawable\\ic_overnight_logo.png"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\drawable_ic_folder.xml.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\drawable\\ic_folder.xml"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\anim_fade_in.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\anim\\fade_in.xml"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\mipmap-mdpi\\ic_launcher_round.webp"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\drawable_ic_add.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\drawable\\ic_add.xml"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\mipmap-hdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-36:\\mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-38:\\mipmap-xhdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\mipmap-hdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\layout_activity_splash.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\layout\\activity_splash.xml"
+    },
+    {
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\mipmap-xhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-debug-42:\\mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\limmi\\.gradle\\daemon\\8.11.1\\com.minyook.overnight.app-main-44:\\mipmap-xhdpi\\ic_launcher.webp"
     }
 ]

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.minyook.overnight.app-mergeDebugResources-34:/values-en-rAU/values-en-rAU.xml",
+            "outputFile": "com.minyook.overnight.app-mergeDebugResources-40:/values-en-rAU/values-en-rAU.xml",
             "map": [
                 {
                     "source": "C:\\Users\\limmi\\.gradle\\caches\\8.11.1\\transforms\\557aeba6ba8baf5d844b931ac7d353b5\\transformed\\appcompat-1.7.1\\res\\values-en-rAU\\values-en-rAU.xml",

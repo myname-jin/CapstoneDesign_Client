@@ -27,6 +27,7 @@ anim design_bottom_sheet_slide_in
 anim design_bottom_sheet_slide_out
 anim design_snackbar_in
 anim design_snackbar_out
+anim fade_in
 anim fragment_fast_out_extra_slow_in
 anim linear_indeterminate_line1_head_interpolator
 anim linear_indeterminate_line1_tail_interpolator
@@ -2412,6 +2413,7 @@ color mtrl_textinput_focused_box_stroke_color
 color mtrl_textinput_hovered_box_stroke_color
 color notification_action_color_filter
 color notification_icon_bg_color
+color overnight_background
 color primary_dark_material_dark
 color primary_dark_material_light
 color primary_material_dark
@@ -3585,6 +3587,7 @@ drawable ic_mtrl_checked_circle
 drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
+drawable ic_overnight_logo
 drawable ic_person
 drawable ic_search_black_24
 drawable m3_avd_hide_password
@@ -3764,12 +3767,14 @@ id below
 id bestChoice
 id blocking
 id bottom
+id bottom_nav_layout
 id bottom_navigation
 id bounce
 id bounceBoth
 id bounceEnd
 id bounceStart
-id button
+id btn_next_start
+id btn_skip
 id buttonPanel
 id cache_measures
 id callMeasure
@@ -3899,6 +3904,7 @@ id ifRoom
 id ignore
 id ignoreRequest
 id image
+id image_placeholder
 id immediateStop
 id included
 id indeterminate
@@ -3909,6 +3915,7 @@ id is_pooling_container_tag
 id italic
 id item_touch_helper_previous_elevation
 id iv_record_icon
+id iv_splash_logo
 id jumpToEnd
 id jumpToStart
 id labeled
@@ -3922,7 +3929,6 @@ id linear
 id listMode
 id list_item
 id m3_side_sheet
-id main
 id marquee
 id masked
 id match_constraint
@@ -4045,6 +4051,7 @@ id pooling_container_listener_holder_tag
 id position
 id postLayout
 id pressed
+id progress_bar
 id progress_circular
 id progress_horizontal
 id radio
@@ -4145,7 +4152,6 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id textTop
-id textView
 id textViewTitle
 id text_input_end_icon
 id text_input_error_icon
@@ -4177,6 +4183,8 @@ id transition_scene_layoutid_cache
 id transition_transform
 id triangle
 id tv_features_title
+id tv_onboarding_description
+id tv_onboarding_title
 id tv_record_date
 id tv_record_duration
 id tv_record_list_title
@@ -4189,6 +4197,7 @@ id useLogo
 id vertical
 id vertical_only
 id view_offset_helper
+id view_pager
 id view_transition
 id view_tree_disjoint_parent
 id view_tree_lifecycle_owner
@@ -4323,8 +4332,9 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
-layout activity_main
+layout activity_onboarding
 layout activity_overnight
+layout activity_splash
 layout custom_dialog
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
@@ -4341,6 +4351,7 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout fragment_onboarding
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
 layout item_recording
@@ -4704,7 +4715,6 @@ style Base_Theme_MaterialComponents_Light_Dialog_FixedSize
 style Base_Theme_MaterialComponents_Light_Dialog_MinWidth
 style Base_Theme_MaterialComponents_Light_DialogWhenLarge
 style Base_Theme_Overnight
-style Base_Theme_Overnight_
 style Base_ThemeOverlay_AppCompat
 style Base_ThemeOverlay_AppCompat_ActionBar
 style Base_ThemeOverlay_AppCompat_Dark
@@ -5284,6 +5294,7 @@ style Theme_MaterialComponents_Light_NoActionBar_Bridge
 style Theme_MaterialComponents_NoActionBar
 style Theme_MaterialComponents_NoActionBar_Bridge
 style Theme_Overnight
+style Theme_Overnight_NoActionBar
 style ThemeOverlay_AppCompat
 style ThemeOverlay_AppCompat_ActionBar
 style ThemeOverlay_AppCompat_Dark

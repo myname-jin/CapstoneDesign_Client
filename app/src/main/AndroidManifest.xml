@@ -12,17 +12,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Overnight"
         tools:targetApi="31">
+
         <activity
-            android:name=".ui.OvernightActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.MainActivity"
-            android:exported="true">
+            android:name=".ui.FirstScrean.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Overnight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.FirstScrean.OnboardingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Overnight.NoActionBar"/>
+
+        <activity
+            android:name=".ui.mainscrean.OvernightActivity"
+            android:exported="false">
         </activity>
     </application>
 

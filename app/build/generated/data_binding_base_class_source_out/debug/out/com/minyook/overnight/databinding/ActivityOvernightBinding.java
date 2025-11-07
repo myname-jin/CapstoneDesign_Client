@@ -15,7 +15,7 @@ import androidx.viewbinding.ViewBindings;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.minyook.overnight.R;
-import com.minyook.overnight.ui.AnimatedWaveView;
+import com.minyook.overnight.ui.mainscrean.AnimatedWaveView;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;

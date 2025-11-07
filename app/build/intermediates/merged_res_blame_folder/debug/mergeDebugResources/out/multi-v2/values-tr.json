@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.minyook.overnight.app-mergeDebugResources-34:/values-tr/values-tr.xml",
+            "outputFile": "com.minyook.overnight.app-mergeDebugResources-40:/values-tr/values-tr.xml",
             "map": [
                 {
                     "source": "C:\\Users\\limmi\\.gradle\\caches\\8.11.1\\transforms\\e6d1ab7a7219a1731ee415ea079595d2\\transformed\\core-1.17.0\\res\\values-tr\\values-tr.xml",
