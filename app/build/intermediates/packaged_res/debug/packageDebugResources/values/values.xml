@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_background_gray">#F5F5F5</color>
+    <color name="black">#FF000000</color>
+    <color name="feature_blue">#AEC6CF</color>
+    <color name="feature_green">#A8E6CF</color>
+    <color name="light_gray">#E0E0E0</color>
+    <color name="light_purple_40">#66D1C4E9</color>
+    <color name="light_purple_70">#B3D1C4E9</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="app_name">Overnight</string>
+    <style name="Base.Theme.Overnight." parent="Theme.Material3.DayNight.NoActionBar">
+        
+        
+    </style>
+    <style name="BottomNavShapeAppearance" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">20dp</item>
+        <item name="cornerSizeTopRight">20dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+    <style name="Theme.Overnight" parent="Base.Theme.Overnight"/>
+</resources>
