@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.minyook.overnight.app-mergeDebugResources-47:/values-v28/values-v28.xml",
+            "outputFile": "com.minyook.overnight.app-mergeDebugResources-54:/values-v28/values-v28.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\limmi\\.gradle\\caches\\8.13\\transforms\\28dcefc01fb2694da81c822cf4734d74\\transformed\\material-1.13.0\\res\\values-v28\\values-v28.xml",
+                    "source": "C:\\Users\\Jimin\\.gradle\\caches\\8.13\\transforms\\186f324f397e49e524479f0fc75b0000\\transformed\\material-1.13.0\\res\\values-v28\\values-v28.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\limmi\\.gradle\\caches\\8.13\\transforms\\7066d034f1fbb31f6e42c124d8041d97\\transformed\\appcompat-1.7.1\\res\\values-v28\\values-v28.xml",
+                    "source": "C:\\Users\\Jimin\\.gradle\\caches\\8.13\\transforms\\ce3530afcca6834378c7de19cd8fa0f2\\transformed\\appcompat-1.7.1\\res\\values-v28\\values-v28.xml",
                     "from": {
                         "startLines": "2,3,4,8",
                         "startColumns": "4,4,4,4",

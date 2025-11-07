@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Overnight</string>
+    <string name="prompt_login">이미 계정이 있으신가요? &lt;b&gt;로그인&lt;/b&gt;</string>
+    <string name="prompt_signup">계정이 없으신가요? &lt;b&gt;회원가입&lt;/b&gt;</string>
 </resources>

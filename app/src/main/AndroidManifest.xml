@@ -32,6 +32,13 @@
             android:name=".ui.mainscrean.OvernightActivity"
             android:exported="false">
         </activity>
+
+        <activity
+            android:name=".ui.FirstScrean.AuthActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Overnight"
+            android:windowSoftInputMode="adjustResize" />
+
     </application>
 
 </manifest>

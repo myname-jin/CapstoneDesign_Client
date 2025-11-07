@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.minyook.overnight.app-mergeDebugResources-47:/values-en-rCA/values-en-rCA.xml",
+            "outputFile": "com.minyook.overnight.app-mergeDebugResources-54:/values-en-rCA/values-en-rCA.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\limmi\\.gradle\\caches\\8.13\\transforms\\5b9af4b1851618577a9a181b51011743\\transformed\\core-1.17.0\\res\\values-en-rCA\\values-en-rCA.xml",
+                    "source": "C:\\Users\\Jimin\\.gradle\\caches\\8.13\\transforms\\221561914021aa34d206c3ee9471cc39\\transformed\\core-1.17.0\\res\\values-en-rCA\\values-en-rCA.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\limmi\\.gradle\\caches\\8.13\\transforms\\7066d034f1fbb31f6e42c124d8041d97\\transformed\\appcompat-1.7.1\\res\\values-en-rCA\\values-en-rCA.xml",
+                    "source": "C:\\Users\\Jimin\\.gradle\\caches\\8.13\\transforms\\ce3530afcca6834378c7de19cd8fa0f2\\transformed\\appcompat-1.7.1\\res\\values-en-rCA\\values-en-rCA.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

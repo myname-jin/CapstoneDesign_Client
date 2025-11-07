@@ -7,7 +7,9 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.minyook.overnight.R
-import com.minyook.overnight.ui.mainscrean.OvernightActivity // ⚠️ 메인 액티비티 경로
+// AuthActivity는 이미 FirstScrean 패키지에 있으므로 이 import는 유지합니다.
+import com.minyook.overnight.ui.FirstScrean.AuthActivity
+// 이 import는 프로젝트에 맞게 유지합니다.
 import com.minyook.test1.ui.FirstScrean.OnboardingAdapter
 
 class OnboardingActivity : AppCompatActivity() {
@@ -37,9 +39,9 @@ class OnboardingActivity : AppCompatActivity() {
             }
         })
 
-        // '넘기기' 버튼 클릭 시 메인으로
+        // '넘기기' 버튼 클릭 시 인증 화면으로 이동 (함수 이름 변경)
         btnSkip.setOnClickListener {
-            navigateToMain()
+            navigateToAuth() // 👈 함수 호출 이름 변경
         }
 
         // '다음' 또는 '시작하기' 버튼 클릭
@@ -48,8 +50,8 @@ class OnboardingActivity : AppCompatActivity() {
                 // '다음'
                 viewPager.currentItem += 1
             } else {
-                // '시작하기'
-                navigateToMain()
+                // '시작하기' -> 인증 화면으로 이동
+                navigateToAuth() // 👈 함수 호출 이름 변경
             }
         }
 
@@ -69,10 +71,14 @@ class OnboardingActivity : AppCompatActivity() {
         }
     }
 
-    // 메인 액티비티로 이동하고 온보딩 화면 종료
-    private fun navigateToMain() {
-        val intent = Intent(this, OvernightActivity::class.java)
+    /**
+     * 기존 navigateToMain() 함수를 navigateToAuth()로 변경하고
+     * AuthActivity를 호출하도록 수정합니다.
+     */
+    private fun navigateToAuth() {
+        // 👇 메인 액티비티(OvernightActivity) 대신 인증 화면(AuthActivity) 호출
+        val intent = Intent(this, AuthActivity::class.java)
         startActivity(intent)
-        finish()
+        finish() // 온보딩 화면 종료
     }
 }

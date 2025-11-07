@@ -16,6 +16,8 @@
     <string name="google_crash_reporting_api_key" translatable="false">AIzaSyB0W0DqiAEZauHHx39nVvM6sqNrr5Gw0U0</string>
     <string name="google_storage_bucket" translatable="false">overnightai-67418.firebasestorage.app</string>
     <string name="project_id" translatable="false">overnightai-67418</string>
+    <string name="prompt_login">이미 계정이 있으신가요? &lt;b>로그인&lt;/b></string>
+    <string name="prompt_signup">계정이 없으신가요? &lt;b>회원가입&lt;/b></string>
     <style name="Base.Theme.Overnight" parent="Theme.Material3.DayNight.NoActionBar">
         
         

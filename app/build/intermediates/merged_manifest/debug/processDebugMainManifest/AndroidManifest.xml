@@ -55,6 +55,11 @@
             android:name="com.minyook.overnight.ui.mainscrean.OvernightActivity"
             android:exported="false" >
         </activity>
+        <activity
+            android:name="com.minyook.overnight.ui.FirstScrean.AuthActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Overnight"
+            android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name="com.google.firebase.components.ComponentDiscoveryService"
@@ -136,6 +141,12 @@
                 android:value="androidx.startup" />
         </provider>
 
+        <uses-library
+            android:name="androidx.window.extensions"
+            android:required="false" />
+        <uses-library
+            android:name="androidx.window.sidecar"
+            android:required="false" />
         <uses-library
             android:name="android.ext.adservices"
             android:required="false" />
