@@ -1,27 +1,47 @@
 package com.minyook.overnight.ui.FirstScrean
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth // 🔑 필수: Firebase Auth import
 import com.minyook.overnight.R
 import com.minyook.overnight.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
 
+    // SharedPreferences 설정을 위한 상수
+    private val PREFS_FILE_NAME = "OvernightAppPrefs"
+    private val USER_UID_KEY = "user_uid"
+
+    // Navigation Action ID (Navigation Graph XML에 정의된 ID)
+    private val ACTION_TO_HOME_FRAGMENT = R.id.action_loginFragment_to_homeFragment
+    private val ACTION_TO_SIGN_UP = R.id.action_loginFragment_to_signUpFragment
+
     // ViewBinding 설정
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+    // Firebase Authentication 객체 선언
+    private lateinit var auth: FirebaseAuth
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Firebase Auth 인스턴스 초기화
+        auth = FirebaseAuth.getInstance()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        // checkLoginStatusAndNavigate() (로그인 상태인지 세션 확인 : 로그인 상태면 로그인 안하고 바로 메인화면)
         return binding.root
     }
 
@@ -30,6 +50,18 @@ class LoginFragment : Fragment() {
 
         setupClickListeners()
         setupSignUpPromptText() // HTML 텍스트 설정
+    }
+
+    private fun checkLoginStatusAndNavigate() {
+        // SharedPreferences에서 UID를 가져와 세션이 있는지 확인
+        val sharedPrefs = requireActivity().getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE)
+        val userUid = sharedPrefs.getString(USER_UID_KEY, null)
+
+        // Firebase Auth의 현재 사용자 객체가 null이 아니고 UID가 저장되어 있다면 Home으로 이동
+        if (auth.currentUser != null && userUid != null) {
+            Log.d("Auth", "자동 로그인 성공. UID: $userUid")
+            navigateToHome()
+        }
     }
 
     private fun setupClickListeners() {
@@ -54,10 +86,7 @@ class LoginFragment : Fragment() {
 
         // 4. 회원가입 프롬프트 텍스트 클릭
         binding.tvSignupPrompt.setOnClickListener {
-            // Navigation Component를 사용해 SignUpFragment로 이동
-            // TODO: Navigation Graph에 정의할 action ID로 변경 필요
-            // 이 ID는 다음 단계에서 만들 auth_nav_graph.xml에 정의됩니다.
-            findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+            findNavController().navigate(ACTION_TO_SIGN_UP)
         }
 
         // 5. 비밀번호 찾기
@@ -67,9 +96,70 @@ class LoginFragment : Fragment() {
         }
     }
 
+
+    private fun performLogin() {
+        // 1. 입력값 가져오기
+        val email = binding.etEmail.text?.toString()?.trim()
+        val password = binding.etPassword.text?.toString()?.trim()
+
+        // 2. 유효성 검사 (간단)
+        if (email.isNullOrEmpty() || password.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "이메일과 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // 3. 버튼 비활성화 (중복 클릭 방지)
+        binding.btnLogin.isEnabled = false
+
+        // 4. Firebase 로그인 실행
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(requireActivity()) { task ->
+                binding.btnLogin.isEnabled = true // 버튼 다시 활성화
+
+                if (task.isSuccessful) {
+                    // 로그인 성공
+                    val user = auth.currentUser
+                    val uid = user?.uid ?: return@addOnCompleteListener // UID 가져오기
+
+                    // 1. SharedPreferences에 사용자 UID 저장 (세션 기억)
+                    saveUserUid(uid)
+
+                    Toast.makeText(requireContext(), "로그인 성공: ${user.email}", Toast.LENGTH_LONG).show()
+                    Log.d("Auth", "로그인 성공, UID 저장됨: $uid")
+
+                    // 2. HomeFragment로 이동
+                    navigateToHome()
+
+                } else {
+                    // 로그인 실패
+                    Log.w("Auth", "로그인 실패", task.exception)
+                    Toast.makeText(requireContext(), "로그인 실패: 아이디/비밀번호를 확인하세요.", Toast.LENGTH_LONG).show()
+                }
+            }
+    }
+
+    /**
+     * 사용자 고유 ID(UID)를 SharedPreferences에 저장하여 세션처럼 유지합니다.
+     */
+    private fun saveUserUid(uid: String) {
+        val sharedPrefs = requireActivity().getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE)
+        sharedPrefs.edit()
+            .putString(USER_UID_KEY, uid)
+            .apply() // 비동기적으로 저장
+    }
+
+    /**
+     * HomeFragment로 이동합니다.
+     */
+    private fun navigateToHome() {
+        // Navigation XML에 정의된 action_loginFragment_to_homeFragment 사용
+        findNavController().navigate(ACTION_TO_HOME_FRAGMENT)
+    }
+
     /**
      * "계정이 없으신가요? <b>회원가입</b>" 텍스트를 HTML로 변환하여 설정
      */
+    @Suppress("DEPRECATION")
     private fun setupSignUpPromptText() {
         val text = getString(R.string.prompt_signup)
         binding.tvSignupPrompt.text = Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY)

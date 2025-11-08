@@ -46,8 +46,6 @@ dependencies {
     implementation libs.androidx.navigation.fragment.ktx
     implementation libs.androidx.navigation.ui.ktx
 
-    // implementation libs.firebase.firestore // <-- 충돌을 일으킬 수 있으므로 이 줄은 삭제(주석)합니다.
-
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
@@ -67,9 +65,14 @@ dependencies {
     implementation "androidx.activity:activity-ktx:1.8.0"
 
     // --- 여기부터 Firebase 라이브러리 ---
+    // Firebase BoM (Bill of Materials): 모든 Firebase 라이브러리 버전을 자동으로 맞춰줍니다.
     implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
-    implementation("com.google.firebase:firebase-common-ktx")
+    // 1. Firebase 인증 (Authentication): 로그인/회원가입 기능의 핵심
+    implementation("com.google.firebase:firebase-auth-ktx")
+    // 2. Firebase Firestore: DB 데이터 저장/조회 기능의 핵심
     implementation("com.google.firebase:firebase-firestore-ktx")
+    // 3. Firebase 공통 KTX (일반적으로 필요)
+    implementation("com.google.firebase:firebase-common-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
     // --- 여기까지 Firebase ---
 
