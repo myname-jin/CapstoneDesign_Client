@@ -34,6 +34,10 @@
         </activity>
 
         <activity
+            android:name=".ui.FirstScrean.FindPasswordActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".ui.FirstScrean.AuthActivity"
             android:exported="false"
             android:theme="@style/Theme.Overnight"

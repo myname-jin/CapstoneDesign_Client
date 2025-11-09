@@ -20,15 +20,16 @@ class LoginFragment : Fragment() {
 
     // SharedPreferences 설정을 위한 상수
     private val PREFS_FILE_NAME = "OvernightAppPrefs"
-    private val USER_UID_KEY = "user_uid"
+    private val USER_UID_KEY = "user_uid" // 사용자의 UID를 저장할 때 사용할 키(key)
 
-    // Navigation Action ID (회원가입 액션은 유지)
-    // ⚠️ ACTION_TO_HOME_FRAGMENT는 더 이상 사용하지 않으므로 제거합니다.
     private val ACTION_TO_SIGN_UP = R.id.action_loginFragment_to_signUpFragment
 
     // ViewBinding 설정
+    // 1. _binding: 뷰가 파괴될 때(onDestroyView) null로 초기화되어야 하므로 '?'(nullable)로 선언
     private var _binding: FragmentLoginBinding? = null
+    // 2. binding: 뷰가 살아있는 동안(onCreateView ~ onDestroyView)에는 _binding을 null이 아니라고 보장(!!)하고 편하게 사용하기 위한 변수
     private val binding get() = _binding!!
+
     // Firebase Authentication 객체 선언
     private lateinit var auth: FirebaseAuth
 
@@ -43,34 +44,44 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        // checkLoginStatusAndNavigate() (로그인 상태인지 세션 확인 : 로그인 상태면 로그인 안하고 바로 메인화면)
+        //(로그인 상태인지 세션 확인 : 로그인 상태면 로그인 안하고 바로 메인화면)
+        // checkLoginStatusAndNavigate()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupClickListeners()
-        setupSignUpPromptText() // HTML 텍스트 설정
+        setupClickListeners()  // 1. 각종 버튼 클릭 리스너 설정
+        setupSignUpPromptText() // 2. '회원가입' 텍스트에 스타일(굵게) 적용
     }
 
+    /**
+     * 앱을 켰을 때 이미 로그인 상태인지(세션이 남아있는지) 확인하고
+     * 로그인 상태라면 바로 메인 화면으로 넘겨주는 '자동 로그인' 함수
+     */
     private fun checkLoginStatusAndNavigate() {
-        // SharedPreferences에서 UID를 가져와 세션이 있는지 확인
+        // 1. 기기에 저장된 SharedPreferences 파일 열기
         val sharedPrefs = requireActivity().getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE)
+        // 2. 저장된 "user_uid"가 있는지 확인합니다. 없으면 null을 반환합니다.
         val userUid = sharedPrefs.getString(USER_UID_KEY, null)
 
-        // Firebase Auth의 현재 사용자 객체가 null이 아니고 UID가 저장되어 있다면 Home으로 이동
+        // 3. Firebase에 현재 로그인된 사용자(auth.currentUser)가 있고,
+        //    기기에도 저장된 UID(userUid)가 있다면, 자동 로그인 성공으로 간주
         if (auth.currentUser != null && userUid != null) {
             Log.d("Auth", "자동 로그인 성공. UID: $userUid")
-            // ⭐️ 프래그먼트 이동 대신 액티비티 이동 함수 호출
+            // 메인 화면로 이동
             navigateToOvernightActivity()
         }
     }
 
+    /**
+     * 화면에 있는 여러 버튼들의 클릭 이벤트를 한 곳에서 관리합니다.
+     */
     private fun setupClickListeners() {
         // 1. 로그인 버튼
         binding.btnLogin.setOnClickListener {
-            performLogin()
+            performLogin()  // 로그인 실행 함수 호출
         }
 
         // 2. Google 로그인 버튼
@@ -85,25 +96,32 @@ class LoginFragment : Fragment() {
             Toast.makeText(requireContext(), "Microsoft 로그인 시도", Toast.LENGTH_SHORT).show()
         }
 
-        // 4. 회원가입 프롬프트 텍스트 클릭
+        // 4. "계정이 없으신가요? 회원가입" 텍스트
         binding.tvSignupPrompt.setOnClickListener {
+            // Navigation Component를 사용해 '회원가입' 프래그먼트로 화면을 전환
             findNavController().navigate(ACTION_TO_SIGN_UP)
         }
 
         // 5. 비밀번호 찾기
         binding.tvForgotPassword.setOnClickListener {
             // TODO: 비밀번호 찾기 화면/다이얼로그 구현
-            Toast.makeText(requireContext(), "비밀번호 찾기 클릭", Toast.LENGTH_SHORT).show()
+            // FindPasswordActivity를 시작하기 위한 Intent 생성
+            val intent = Intent(requireContext(), FindPasswordActivity::class.java)
+
+            // Intent를 실행하여 새 Activity를 띄웁니다.
+            startActivity(intent)
         }
     }
 
-
+    /**
+     * 사용자가 입력한 이메일과 비밀번호로 실제 로그인을 시도하는 핵심 함수
+     */
     private fun performLogin() {
-        // 1. 입력값 가져오기
+        // 1. 사용자가 입력한 이메일과 비밀번호 값을 가져옵니다. (trim()으로 양쪽 공백 제거)
         val email = binding.etEmail.text?.toString()?.trim()
         val password = binding.etPassword.text?.toString()?.trim()
 
-        // 2. 유효성 검사 (간단)
+        // 2. (유효성 검사) 이메일이나 비밀번호가 비어있는지 확인
         if (email.isNullOrEmpty() || password.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "이메일과 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
             return
@@ -112,57 +130,60 @@ class LoginFragment : Fragment() {
         // 3. 버튼 비활성화 (중복 클릭 방지)
         binding.btnLogin.isEnabled = false
 
-        // 4. Firebase 로그인 실행
+        // 4. Firebase Auth에 이메일/비밀번호로 로그인을 시도하라고 요청
         auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(requireActivity()) { task ->
-                binding.btnLogin.isEnabled = true // 버튼 다시 활성화
+            .addOnCompleteListener(requireActivity()) { task ->  // 5. 요청 결과(task)를 비동기적으로 받습니다.
+                // 6. (결과 도착) 성공이든 실패든 버튼을 다시 활성화
+                binding.btnLogin.isEnabled = true
 
                 if (task.isSuccessful) {
-                    // 로그인 성공
+                    // --- 7. 로그인 성공 ---
                     val user = auth.currentUser
                     val uid = user?.uid ?: return@addOnCompleteListener // UID 가져오기
 
-                    // 1. SharedPreferences에 사용자 UID 저장 (세션 기억)
+                    // 7-1. (세션 유지) 자동 로그인을 위해 사용자 UID를 기기에 저장
                     saveUserUid(uid)
 
                     Toast.makeText(requireContext(), "로그인 성공: ${user.email}", Toast.LENGTH_LONG).show()
                     Log.d("Auth", "로그인 성공, UID 저장됨: $uid")
 
-                    // 2. ⭐️ HomeFragment로 이동하는 대신 OvernightActivity로 이동
+                    // 7-2. 메인 화면으로 이동
                     navigateToOvernightActivity()
 
                 } else {
-                    // 로그인 실패
-                    Log.w("Auth", "로그인 실패", task.exception)
+                    // --- 8. 로그인 실패 ---
+                    Log.w("Auth", "로그인 실패", task.exception)  // 실패 원인을 로그에 기록
                     Toast.makeText(requireContext(), "로그인 실패: 아이디/비밀번호를 확인하세요.", Toast.LENGTH_LONG).show()
                 }
             }
     }
 
     /**
-     * 사용자 고유 ID(UID)를 SharedPreferences에 저장하여 세션처럼 유지합니다.
+     * 사용자 고유 ID(UID)를 SharedPreferences에 저장하여 세션처럼 유지
      */
     private fun saveUserUid(uid: String) {
         val sharedPrefs = requireActivity().getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE)
-        sharedPrefs.edit()
-            .putString(USER_UID_KEY, uid)
+        sharedPrefs.edit()  // 저장 모드 시작
+            .putString(USER_UID_KEY, uid) // "user_uid"라는 키로 uid 값을 저장
             .apply() // 비동기적으로 저장
     }
 
     /**
-     * OvernightActivity로 이동하고 현재 액티비티(로그인 화면)를 종료합니다.
-     * 이 함수가 findNavController().navigate(ACTION_TO_HOME_FRAGMENT)를 대체합니다.
+     * 로그인 성공 후 메인 화면(OvernightActivity)으로 이동하고
+     * 현재 액티비티(로그인/회원가입 화면)를 종료합니다.
      */
     private fun navigateToOvernightActivity() {
-        // OvernightActivity를 실행하기 위한 Intent 생성
+        // 1. OvernightActivity를 실행하기 위한 Intent 생성
         val intent = Intent(requireContext(), OvernightActivity::class.java)
 
-        // Activity 스택을 정리하여 뒤로 가기 버튼을 눌러도 로그인 화면으로 돌아가지 않도록 합니다.
+        // 2. Activity 스택을 정리하는 플래그 설정
+        // -> 뒤로 가기 버튼을 눌러도 다시 로그인 화면으로 돌아가지 않도록 이전 기록(스택)을 모두 삭제
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
+        // 3. 메인 화면으로 이동
         startActivity(intent)
 
-        // 현재 프래그먼트를 호스팅하는 액티비티를 종료합니다.
+        // 4.  현재 프래그먼트를 호스팅하는 액티비티(AuthActivity)를 완전히 종료
         requireActivity().finish()
     }
 
