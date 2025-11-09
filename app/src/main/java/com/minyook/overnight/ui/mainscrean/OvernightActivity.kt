@@ -1,4 +1,4 @@
-package com.minyook.overnight.ui.mainscrean // 님의 패키지 경로
+package com.minyook.overnight.ui.mainscrean
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.minyook.overnight.R
 import com.minyook.overnight.ui.home.HomeFragment // HomeFragment import
 import com.minyook.overnight.ui.mypage.MyPageFragment // MyPageFragment import
-// ⚠️ (폴더 Fragment도 만들었다면 import 해야 합니다)
+import com.minyook.overnight.ui.folder.FolderFragment // ⭐️ FolderFragment import (패키지 경로 가정)
+
+
 
 // ⚠️ 클래스 이름을 여기에서 변경했습니다.
 class OvernightActivity : AppCompatActivity() {
@@ -15,7 +17,7 @@ class OvernightActivity : AppCompatActivity() {
     // 1. 홈, 마이페이지 Fragment를 미리 준비합니다.
     private val homeFragment = HomeFragment()
     private val myPageFragment = MyPageFragment()
-    // private val folderFragment = FolderFragment()
+    private val folderFragment = FolderFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +30,7 @@ class OvernightActivity : AppCompatActivity() {
             loadFragment(homeFragment)
         }
 
-        // 3. ⚡️ 여기가 '마이페이지'를 불러오는 핵심 코드입니다. ⚡️
+        // 3. ⚡️ 여기가 '프래그먼트 전환'을 불러오는 핵심 코드입니다. ⚡️
         // 네비게이션 바의 아이템이 선택되었을 때를 감지합니다.
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -40,8 +42,8 @@ class OvernightActivity : AppCompatActivity() {
 
                 // '폴더' 아이콘을 클릭하면
                 R.id.nav_folder -> {
-                    // TODO: 폴더 프래그먼트 로드
-                    // loadFragment(folderFragment)
+                    // ⭐️ TODO: 폴더 프래그먼트 로드 -> 로직 구현 완료
+                    loadFragment(folderFragment)
                     true
                 }
 

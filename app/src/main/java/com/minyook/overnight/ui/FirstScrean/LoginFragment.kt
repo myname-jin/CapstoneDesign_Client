@@ -1,6 +1,7 @@
 package com.minyook.overnight.ui.FirstScrean
 
 import android.content.Context
+import android.content.Intent // ⭐️ Intent 사용을 위한 import
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
@@ -10,9 +11,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.FirebaseAuth // 🔑 필수: Firebase Auth import
+import com.google.firebase.auth.FirebaseAuth
 import com.minyook.overnight.R
 import com.minyook.overnight.databinding.FragmentLoginBinding
+import com.minyook.overnight.ui.mainscrean.OvernightActivity // ⭐️ OvernightActivity 임포트
 
 class LoginFragment : Fragment() {
 
@@ -20,8 +22,8 @@ class LoginFragment : Fragment() {
     private val PREFS_FILE_NAME = "OvernightAppPrefs"
     private val USER_UID_KEY = "user_uid"
 
-    // Navigation Action ID (Navigation Graph XML에 정의된 ID)
-    private val ACTION_TO_HOME_FRAGMENT = R.id.action_loginFragment_to_homeFragment
+    // Navigation Action ID (회원가입 액션은 유지)
+    // ⚠️ ACTION_TO_HOME_FRAGMENT는 더 이상 사용하지 않으므로 제거합니다.
     private val ACTION_TO_SIGN_UP = R.id.action_loginFragment_to_signUpFragment
 
     // ViewBinding 설정
@@ -60,7 +62,8 @@ class LoginFragment : Fragment() {
         // Firebase Auth의 현재 사용자 객체가 null이 아니고 UID가 저장되어 있다면 Home으로 이동
         if (auth.currentUser != null && userUid != null) {
             Log.d("Auth", "자동 로그인 성공. UID: $userUid")
-            navigateToHome()
+            // ⭐️ 프래그먼트 이동 대신 액티비티 이동 함수 호출
+            navigateToOvernightActivity()
         }
     }
 
@@ -125,8 +128,8 @@ class LoginFragment : Fragment() {
                     Toast.makeText(requireContext(), "로그인 성공: ${user.email}", Toast.LENGTH_LONG).show()
                     Log.d("Auth", "로그인 성공, UID 저장됨: $uid")
 
-                    // 2. HomeFragment로 이동
-                    navigateToHome()
+                    // 2. ⭐️ HomeFragment로 이동하는 대신 OvernightActivity로 이동
+                    navigateToOvernightActivity()
 
                 } else {
                     // 로그인 실패
@@ -147,11 +150,20 @@ class LoginFragment : Fragment() {
     }
 
     /**
-     * HomeFragment로 이동합니다.
+     * OvernightActivity로 이동하고 현재 액티비티(로그인 화면)를 종료합니다.
+     * 이 함수가 findNavController().navigate(ACTION_TO_HOME_FRAGMENT)를 대체합니다.
      */
-    private fun navigateToHome() {
-        // Navigation XML에 정의된 action_loginFragment_to_homeFragment 사용
-        findNavController().navigate(ACTION_TO_HOME_FRAGMENT)
+    private fun navigateToOvernightActivity() {
+        // OvernightActivity를 실행하기 위한 Intent 생성
+        val intent = Intent(requireContext(), OvernightActivity::class.java)
+
+        // Activity 스택을 정리하여 뒤로 가기 버튼을 눌러도 로그인 화면으로 돌아가지 않도록 합니다.
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+        startActivity(intent)
+
+        // 현재 프래그먼트를 호스팅하는 액티비티를 종료합니다.
+        requireActivity().finish()
     }
 
     /**

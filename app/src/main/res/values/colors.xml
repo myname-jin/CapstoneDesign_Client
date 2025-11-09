@@ -11,5 +11,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="light_purple">#FFD1C4E9</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="dark_gray">#FF444444</color>
+
     <color name="overnight_background">#3A1D6E</color>
 </resources>
