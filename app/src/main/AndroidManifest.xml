@@ -43,6 +43,14 @@
             android:theme="@style/Theme.Overnight"
             android:windowSoftInputMode="adjustResize" />
 
+        <activity
+            android:name=".ui.mainscrean.PresentationInfoActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.file.UploadActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

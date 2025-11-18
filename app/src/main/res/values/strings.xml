@@ -2,4 +2,20 @@
     <string name="app_name">Overnight</string>
     <string name="prompt_login">이미 계정이 있으신가요? &lt;b&gt;로그인&lt;/b&gt;</string>
     <string name="prompt_signup">계정이 없으신가요? &lt;b&gt;회원가입&lt;/b&gt;</string>
+
+    <string name="title_enter_info">발표 정보 입력</string>
+    <string name="subtitle_enter_info">발표에 대한 정보를 입력해주세요</string>
+
+    <string name="team_info">팀 이름</string>
+    <string name="presentation_name">대회 및 수업 이름</string>
+
+    <string name="items_and_weight">발표 항목 및 비중</string>
+    <string name="add_item">+ 항목 추가</string>
+
+    <string name="item_1">항목 1</string>
+    <string name="item_name">항목명</string>
+    <string name="content">내용</string>
+    <string name="score">점수</string>
+
+    <string name="start_presentation">파일 업로드하기</string>
 </resources>
