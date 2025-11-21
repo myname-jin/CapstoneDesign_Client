@@ -55,12 +55,19 @@ class ChildNotesFragment : Fragment() {
 
         // '더 보기' 버튼: 폴더 옵션 바텀 시트 띄우기
         view.findViewById<ImageButton>(R.id.btn_more).setOnClickListener {
-            val bottomSheet = FolderOptionsBottomSheet()
+            val bottomSheet = FolderOptionsBottomSheet.newInstance(folderTitle ?: "")
+            bottomSheet.setTargetFragment(this, 0)
             bottomSheet.show(parentFragmentManager, "FolderOptions")
         }
 
-        // FAB (새 노트 추가) 리스너 설정
-        view.findViewById<ImageButton>(R.id.fab_add_note).setOnClickListener {
+        // ⭐ [수정] FAB (새 노트 추가) 리스너 설정 및 숨기기
+        val fabAddNote = view.findViewById<ImageButton>(R.id.fab_add_note)
+
+        // 1. FAB 숨기기
+        fabAddNote.visibility = View.GONE
+
+        // 2. 리스너는 이제 불필요하지만, 혹시 모를 대비
+        fabAddNote.setOnClickListener {
             // TODO: 파일 업로드/새 녹음 시작 로직 구현
         }
     }

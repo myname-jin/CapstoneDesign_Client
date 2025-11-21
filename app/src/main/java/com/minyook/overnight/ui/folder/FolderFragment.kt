@@ -22,14 +22,15 @@ import com.minyook.overnight.ui.mainscrean.PresentationInfoActivity // 👈 [추
  * AddChildDialogFragment.ChildCreationListener 인터페이스를 구현하여
  * 다이얼로그로부터 새 폴더 생성 이벤트를 받습니다.
  */
-class FolderFragment : Fragment(), AddChildDialogFragment.ChildCreationListener {
-
+class FolderFragment : Fragment(), AddChildDialogFragment.ChildCreationListener,
+    FolderOptionsBottomSheet.FolderOptionListener, RenameFolderDialogFragment.RenameListener {
     private lateinit var folderAdapter: FolderExpandableAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var fabAddFolder: FloatingActionButton
 
+    private lateinit var folderGroupsData: MutableList<FolderItem.Group>
     // -----------------------------------
-    // 데이터 초기 설정 (FolderData.kt 기반)
+    // 데이터 초기 설정 (FolderItem.kt 기반)
     // -----------------------------------
     private fun getInitialData(): MutableList<FolderItem.Group> {
         // (사용자님이 제공해주신 스크린샷 기반 데이터)
@@ -63,30 +64,113 @@ class FolderFragment : Fragment(), AddChildDialogFragment.ChildCreationListener 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 2. 뷰 바인딩
+        // ⭐ 1. 뷰 바인딩 코드가 가장 먼저 실행되어야 합니다.
         recyclerView = view.findViewById(R.id.recycler_folder_list)
-        fabAddFolder = view.findViewById(R.id.fab_add_folder) // 👈 ID 확인 (이전에는 fab_add였을 수 있음)
+        fabAddFolder = view.findViewById(R.id.fab_add_folder)
+
+        // 2. 원본 데이터 저장
+        if (!::folderGroupsData.isInitialized) {
+            folderGroupsData = getInitialData()
+        }
 
         // 3. 어댑터 초기화 및 콜백 정의
         folderAdapter = FolderExpandableAdapter(
-            data = getInitialData(),
-            // 3-1. '+' 버튼 클릭 시 (Adapter -> Fragment)
-            onAddClicked = { groupName ->
-                showAddChildDialog(groupName)
-            },
-            // 3-2. 자식 항목 클릭 시 (Adapter -> Fragment)
-            onChildClicked = { childName ->
-                navigateToChildNotes(childName)
-            }
+            data = folderGroupsData, // 저장된 데이터 전달
+            onAddClicked = ::showAddChildDialog,
+            onChildClicked = ::navigateToChildNotes,
+            onTrashClicked = ::navigateToTrashList,
+            onChildOptionsClicked = ::showChildOptionsBottomSheet
         )
 
-        // 4. 리사이클러뷰 설정
+        // 4. 리사이클러뷰 설정 (이제 recyclerView 변수는 초기화된 상태입니다.)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = folderAdapter
+        recyclerView.adapter = folderAdapter // ⭐ 이 코드가 이제 성공적으로 실행됩니다.
 
-        // 5. 🔴 [수정됨] 하단 FAB 리스너 (파일 업로드 메뉴) 로직 구현
+        // 5. 하단 FAB 리스너 (팝업)
         fabAddFolder.setOnClickListener { anchorView ->
             showAddOptionsPopup(anchorView)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // 다른 화면(휴지통)에서 데이터 상태(isDeleted)가 바뀌었을 수 있으므로
+        // 화면이 다시 보일 때 목록을 갱신합니다.
+        if (::folderAdapter.isInitialized) {
+            folderAdapter.notifyDataChanged()
+        }
+    }
+
+    private fun navigateToTrashList() {
+
+        // ⭐ [핵심 수정] 데이터 목록을 Bundle에 담아 TrashNotesFragment로 전달합니다.
+        // Arraylist로 변환하여 Bundle에 넣습니다.
+        val dataToSend = ArrayList(folderGroupsData)
+        val fragment = TrashNotesFragment.newInstance(dataToSend)
+        val containerId = (view?.parent as? ViewGroup)?.id ?: R.id.fragment_container
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(containerId, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+    private fun showChildOptionsBottomSheet(anchorView: View, folderTitle: String) {
+        val bottomSheet = FolderOptionsBottomSheet.newInstance(folderTitle)
+
+        // ⭐ 이 Fragment를 타겟으로 설정하여, BottomSheet에서 발생하는 삭제/이름 변경 이벤트를 직접 수신
+        bottomSheet.setTargetFragment(this, 0)
+        bottomSheet.show(parentFragmentManager, "ChildOptions")
+    }
+
+    override fun onFolderDeleted(folderTitle: String) {
+        deleteFolderByTitleAndRefresh(folderTitle) // 메모리에서 삭제 로직 수행
+    }
+
+    override fun onFolderRenamed(folderTitle: String) {
+        // ⭐ [수정] BottomSheet에서 요청이 오면, Rename 다이얼로그를 띄웁니다.
+        val dialog = RenameFolderDialogFragment.newInstance(folderTitle)
+        dialog.setTargetFragment(this, 0)
+        dialog.show(parentFragmentManager, "RenameDialog")
+    }
+
+    override fun onFolderRenamed(oldTitle: String, newTitle: String) {
+        // 1. 메모리 데이터(folderGroupsData)를 업데이트합니다.
+        var updated = false
+
+        folderGroupsData.forEach { group ->
+            val childToRename = group.children.find { it.name == oldTitle }
+            if (childToRename != null) {
+                childToRename.name = newTitle // 이름 변경
+                updated = true
+                return@forEach
+            }
+        }
+
+        if (updated) {
+            // 2. Adapter에 데이터가 변경되었음을 알리고 UI를 갱신합니다.
+            folderAdapter.notifyDataChanged()
+            Toast.makeText(context, "'$oldTitle' 폴더가 '$newTitle'로 변경되었습니다.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun deleteFolderByTitleAndRefresh(folderTitle: String) {
+        var markedAsDeleted = false // 변수 이름 변경
+
+        // 원본 데이터(folderGroupsData)에서 항목을 찾습니다.
+        folderGroupsData.forEach { group ->
+            val childToTrash = group.children.find { it.name == folderTitle }
+            if (childToTrash != null) {
+                // ⭐ [핵심 수정] 항목을 삭제하는 대신, isDeleted 플래그를 true로 설정합니다.
+                childToTrash.isDeleted = true
+                markedAsDeleted = true
+                return@forEach
+            }
+        }
+
+        if (markedAsDeleted) {
+            // isDeleted 상태가 변경되었으므로 어댑터를 갱신합니다.
+            folderAdapter.notifyDataChanged()
+            Toast.makeText(context, "'$folderTitle' 폴더가 휴지통으로 이동되었습니다.", Toast.LENGTH_SHORT).show()
         }
     }
 

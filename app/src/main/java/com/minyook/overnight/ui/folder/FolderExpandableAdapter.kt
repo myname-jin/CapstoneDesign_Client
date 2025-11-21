@@ -1,7 +1,8 @@
 // ui.folder/FolderExpandableAdapter.kt
+
 package com.minyook.overnight.ui.folder
 
-import FolderItem
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,38 +10,63 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.minyook.overnight.R // R 파일 경로는 프로젝트에 맞게 수정해주세요.
-import java.util.UUID
+import com.minyook.overnight.R
 
 class FolderExpandableAdapter(
-    private val data: MutableList<FolderItem.Group>, // 원본 Group 데이터
-    private val onAddClicked: (groupName: String) -> Unit, // '+' 버튼 콜백
-    private val onChildClicked: (childName: String) -> Unit // 하위 항목 클릭 콜백
+    // [데이터 저장소] Fragment에서 전달된 원본 데이터
+    private val data: MutableList<FolderItem.Group>,
+    // [콜백] 동적 추가 버튼
+    private val onAddClicked: (groupName: String) -> Unit,
+    // [콜백] 하위 항목 클릭
+    private val onChildClicked: (childName: String) -> Unit,
+    // [콜백] 휴지통 클릭
+    private val onTrashClicked: () -> Unit,
+    // [콜백] 하위 폴더 옵션 버튼 클릭
+    private val onChildOptionsClicked: (view: View, childName: String) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    // 뷰 타입 상수
     private val VIEW_TYPE_GROUP = 1
     private val VIEW_TYPE_CHILD = 2
 
-    // 표시될 실제 목록 (그룹 + 펼쳐진 하위 항목)
-    private val displayList: MutableList<FolderItem> = calculateDisplayList()
+    // 표시될 실제 목록 (초기 호출 시 data를 인자로 전달)
+    private val displayList: MutableList<FolderItem> = calculateDisplayList(data) // ⭐ 수정 완료
 
     // -----------------------------------
-    // 목록 계산 및 상태 관리
+    // I. 데이터 관리 및 갱신
     // -----------------------------------
 
-    private fun calculateDisplayList(): MutableList<FolderItem> {
+    /**
+     * Group Data를 기반으로 펼쳐진 Child 항목을 포함한 최종 표시 목록을 계산합니다.
+     */
+    private fun calculateDisplayList(groups: List<FolderItem.Group>): MutableList<FolderItem> {
         val list = mutableListOf<FolderItem>()
-        data.forEach { group ->
-            list.add(group)
-            if (group.isExpanded) {
-                list.addAll(group.children)
+        groups.forEach { group ->
+            list.add(group) // 1. 그룹 헤더를 추가
+
+            // 2. 펼쳐진 그룹의 하위 항목을 추가합니다.
+            if (group.isExpanded && group.name != "휴지통") {
+                // ⭐ [핵심 수정] Children 목록을 추가하기 전에 isDeleted가 false인 항목만 필터링합니다.
+                val activeChildren = group.children.filter { !it.isDeleted }
+                list.addAll(activeChildren) // 필터링된 항목들만 추가
             }
         }
         return list
     }
 
-    // 외부에서 호출: 새 하위 항목을 그룹에 추가하고 목록을 업데이트
+    /**
+     * Fragment에서 데이터 변경 후 호출됩니다. (삭제/이름 변경 후)
+     */
+    @SuppressLint("NotifyDataSetChanged")
+    fun notifyDataChanged() {
+        // 원본 데이터(data)가 Fragment에 의해 변경되었으므로, displayList를 다시 계산합니다.
+        displayList.clear()
+        displayList.addAll(calculateDisplayList(data))
+        notifyDataSetChanged()
+    }
+
+    /**
+     * 새 하위 항목을 그룹에 추가하고 목록을 업데이트합니다.
+     */
     fun addChildToGroup(groupName: String, childName: String) {
         val targetGroup = data.find { it.name == groupName }
 
@@ -48,24 +74,15 @@ class FolderExpandableAdapter(
             val newChild = FolderItem.Child(parentId = targetGroup.id, name = childName)
             targetGroup.children.add(0, newChild)
 
-            // 그룹이 펼쳐져 있다면 화면에 즉시 반영
+            // 데이터 변경 후 전체 갱신 요청
             if (targetGroup.isExpanded) {
-                // 목록을 다시 계산하고 업데이트
-                val groupIndex = displayList.indexOf(targetGroup)
-                displayList.clear()
-                displayList.addAll(calculateDisplayList())
-                if (groupIndex != -1) {
-                    // 그룹 바로 아래에 삽입되었음을 알림
-                    notifyItemInserted(groupIndex + 1)
-                } else {
-                    notifyDataSetChanged()
-                }
+                notifyDataChanged()
             }
         }
     }
 
     // -----------------------------------
-    // RecyclerView 필수 구현
+    // II. RecyclerView 필수 구현 (생략)
     // -----------------------------------
 
     override fun getItemViewType(position: Int): Int {
@@ -78,11 +95,12 @@ class FolderExpandableAdapter(
     override fun getItemCount(): Int = displayList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
         return if (viewType == VIEW_TYPE_GROUP) {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_folder_group, parent, false)
+            val view = inflater.inflate(R.layout.item_folder_group, parent, false)
             GroupViewHolder(view)
         } else {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_folder_child, parent, false)
+            val view = inflater.inflate(R.layout.item_folder_child, parent, false)
             ChildViewHolder(view)
         }
     }
@@ -95,73 +113,84 @@ class FolderExpandableAdapter(
     }
 
     // -----------------------------------
-    // Group ViewHolder
+    // III. ViewHolders
     // -----------------------------------
 
     inner class GroupViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val title: TextView = itemView.findViewById(R.id.tv_group_title)
         private val toggleIcon: ImageView = itemView.findViewById(R.id.iv_expand_toggle)
-        private val addButton: ImageButton = itemView.findViewById(R.id.btn_add_child)
         private val groupIcon: ImageView = itemView.findViewById(R.id.iv_group_icon)
 
+        // ⭐ XML에 추가한 버튼 ID 연결
+        private val addButton: ImageButton = itemView.findViewById(R.id.btn_add_child)
+
         fun bind(group: FolderItem.Group) {
+            // 1. 그룹 이름 설정
             title.text = group.name
 
-            // '전체 노트' 그룹에만 '+' 버튼 표시
-            addButton.visibility = if (group.name == "전체 노트") View.VISIBLE else View.GONE
-
-            // 그룹 아이콘 설정 (예: 휴지통 아이콘)
+            // 2. 휴지통 vs 전체 노트 분기 처리
             if (group.name == "휴지통") {
+                // [휴지통]
                 groupIcon.setImageResource(R.drawable.ic_delete)
+                toggleIcon.visibility = View.INVISIBLE // 접기 화살표 숨김
+                addButton.visibility = View.GONE       // + 버튼 숨김
+
+                itemView.setOnClickListener {
+                    onTrashClicked() // 휴지통 클릭 시 이동
+                }
             } else {
+                // [전체 노트] (일반 그룹)
                 groupIcon.setImageResource(R.drawable.ic_folder)
-            }
+                toggleIcon.visibility = View.VISIBLE
 
-            // 1. 접기/펴기 아이콘 방향 설정 (위쪽 화살표(ic_arrow_up)가 90도 회전하면 오른쪽을 가리키도록 설정)
-            val rotation = if (group.isExpanded) 0f else 270f
-            toggleIcon.rotation = rotation
+                // ⭐ [핵심] "전체 노트"일 때만 + 버튼 보이기 & 클릭 리스너 연결
+                if (group.name == "전체 노트") {
+                    addButton.visibility = View.VISIBLE
+                    addButton.setOnClickListener {
+                        // + 버튼 클릭 시 -> FolderFragment의 다이얼로그 호출
+                        onAddClicked(group.name)
+                    }
+                } else {
+                    addButton.visibility = View.GONE
+                }
 
-            // 2. 그룹 전체 클릭 리스너 (접기/펴기)
-            itemView.setOnClickListener {
-                toggleGroupExpansion(group)
-            }
+                // 접기/펴기 아이콘 회전
+                val rotation = if (group.isExpanded) 0f else 270f
+                toggleIcon.rotation = rotation
 
-            // 3. '+' 버튼 클릭 리스너 (새 항목 추가 다이얼로그 호출)
-            addButton.setOnClickListener {
-                onAddClicked(group.name)
+                // 그룹(카드) 전체 클릭 시 -> 접기/펴기 수행
+                itemView.setOnClickListener {
+                    toggleGroupExpansion(group)
+                }
             }
         }
     }
 
-    // -----------------------------------
-    // Child ViewHolder
-    // -----------------------------------
-
     inner class ChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val title: TextView = itemView.findViewById(R.id.tv_child_title)
+        private val optionsButton: ImageButton = itemView.findViewById(R.id.btn_child_options)
 
         fun bind(child: FolderItem.Child) {
             title.text = child.name
 
-            // 하위 항목 클릭 시 ChildNotesFragment로 이동
+            // 1. 하위 항목 클릭 시 이동
             itemView.setOnClickListener {
                 onChildClicked(child.name)
+            }
+
+            // 2. 옵션 버튼 클릭 시 BottomSheet 띄우기 요청
+            optionsButton.setOnClickListener {
+                onChildOptionsClicked(it, child.name)
             }
         }
     }
 
     // -----------------------------------
-    // 핵심 로직: 접기/펴기
+    // IV. 핵심 로직: 접기/펴기
     // -----------------------------------
 
     private fun toggleGroupExpansion(group: FolderItem.Group) {
         group.isExpanded = !group.isExpanded
-
-        // 목록 업데이트
-        displayList.clear()
-        displayList.addAll(calculateDisplayList())
-
-        // 데이터가 변경되었음을 알림
-        notifyDataSetChanged()
+        notifyDataChanged() // 데이터 변경 후 갱신
     }
 }

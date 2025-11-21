@@ -87,7 +87,7 @@ class LoginFragment : Fragment() {
     ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         //(로그인 상태인지 세션 확인 : 로그인 상태면 로그인 안하고 바로 메인화면)
-        // checkLoginStatusAndNavigate()
+        checkLoginStatusAndNavigate()
         return binding.root
     }
 
