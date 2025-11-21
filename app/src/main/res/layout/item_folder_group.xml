@@ -4,55 +4,76 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:layout_marginHorizontal="4dp"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp"
-    android:layout_marginBottom="12dp">
+    app:cardCornerRadius="20dp"
+    app:cardElevation="0dp"
+    android:elevation="6dp"
+    android:outlineAmbientShadowColor="@color/shadow_soft_indigo"
+    android:outlineSpotShadowColor="@color/shadow_soft_indigo">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center_vertical">
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="20dp"
+        android:background="?attr/selectableItemBackground">
 
         <ImageView
             android:id="@+id/iv_group_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_circle_soft_blue"
+            android:padding="10dp"
             android:src="@drawable/ic_folder"
-            app:tint="@color/light_purple"/>
+            app:tint="@color/primary_tech_blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="폴더 아이콘"/>
 
         <TextView
             android:id="@+id/tv_group_title"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="전체 노트"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginStart="16dp"/>
+            android:textColor="@color/text_title"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toEndOf="@id/iv_group_icon"
+            app:layout_constraintEnd_toStartOf="@id/btn_add_child"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ImageButton
             android:id="@+id/btn_add_child"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@drawable/ic_add"
-            app:tint="@color/black"
+            app:tint="@color/primary_tech_blue"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="4dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:visibility="gone"
-            android:contentDescription="폴더 추가" />
+            app:layout_constraintEnd_toStartOf="@id/iv_expand_toggle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="하위 폴더 추가" />
 
         <ImageView
             android:id="@+id/iv_expand_toggle"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:src="@drawable/ic_arrow_up"
-            app:tint="@color/black"
+            app:tint="@color/sub_text_color"
+            android:padding="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:contentDescription="접기/펴기 토글"/>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

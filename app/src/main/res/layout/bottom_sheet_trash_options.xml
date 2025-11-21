@@ -1,50 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingBottom="24dp"
-    android:background="@android:color/white">
+    android:background="@drawable/bg_bottom_sheet_rounded">
 
     <View
         android:layout_width="40dp"
         android:layout_height="4dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        android:background="#E0E0E0" />
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/shape_capsule_gray" />
 
     <TextView
         android:id="@+id/tv_trash_options_title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="휴지통 옵션"
-        android:textSize="18sp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"
+        android:text="Trash Options"
+        android:textSize="14sp"
         android:textStyle="bold"
-        android:textColor="@android:color/black"/>
+        android:textColor="@color/sub_text_color"/>
 
     <LinearLayout
         android:id="@+id/option_restore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="24dp"
         android:clickable="true"
         android:focusable="true"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:background="?attr/selectableItemBackground">
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_folder"
-            android:layout_marginEnd="16dp"/>
-        <TextView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_circle_soft_blue"
+            android:padding="10dp"
+            android:src="@drawable/ic_refresh"
+            app:tint="@color/primary_tech_blue"
+            android:contentDescription="복구 아이콘"/>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="복구하기"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"/>
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="복구하기"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_title"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="원래 있던 폴더로 되돌립니다."
+                android:textSize="12sp"
+                android:textColor="@color/sub_text_color"/>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

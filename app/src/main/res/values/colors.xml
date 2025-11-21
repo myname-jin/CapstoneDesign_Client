@@ -1,35 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="light_purple_40">#66D1C4E9</color>
-    <color name="light_purple_70">#B3D1C4E9</color>
-    <color name="feature_blue">#AEC6CF</color>
-
-    <color name="feature_green">#A8E6CF</color>
-    <color name="app_background_gray">#F5F5F5</color>
-
-    <color name="light_gray">#E0E0E0</color>
+    <color name="white">#FFFFFF</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
 
-    <color name="light_purple">#FFD1C4E9</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="dark_gray">#FF444444</color>
+    <color name="app_background">#FFFFFF</color>
 
-    <!-- 막대 그래프 색상 시뮬레이션 -->
-    <color name="score_high">#4CAF50</color>   <!-- 초록 -->
-    <color name="score_medium">#FFC107</color> <!-- 노랑 -->
-    <color name="score_low">#F44336</color>    <!-- 빨강 -->
-    <color name="purple_500">#9C27B0</color>
-    <color name="overnight_background">#3A1D6E</color>
-    <color name="app_background">#F5F7FA</color>
 
     <color name="primary_tech_blue">#4F46E5</color>
     <color name="primary_tech_dark">#3730A3</color>
 
     <color name="accent_violet">#7C3AED</color>
-    <color name="accent_soft_blue">#E0E7FF</color> <color name="text_title">#1F2937</color>
+
+    <color name="accent_soft_blue">#E0E7FF</color>
     <color name="nav_indicator">#EEF2FF</color>
-    <color name="nav_item_inactive">#9CA3AF</color>
+
+
+    <color name="text_title">#1F2937</color>
     <color name="text_body">#6B7280</color>
+    <color name="sub_text_color">#757575</color>
+    <color name="nav_item_inactive">#9CA3AF</color>
     <color name="shadow_soft_indigo">#264F46E5</color>
+
+    <color name="score_high">#4CAF50</color>
+    <color name="score_medium">#FFC107</color>
+    <color name="score_low">#F44336</color>
+    <color name="light_purple">#FFD1C4E9</color>
+
+    <color name="light_purple_40">#66D1C4E9</color>
+    <color name="light_purple_70">#B3D1C4E9</color>
+    <color name="purple_500">#9C27B0</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="overnight_background">#3A1D6E</color>
+
+    <color name="feature_blue">#AEC6CF</color>
+    <color name="feature_green">#A8E6CF</color>
+
+    <color name="app_background_gray">#F5F5F5</color>
+    <color name="light_gray">#E0E0E0</color>
+    <color name="dark_gray">#FF444444</color>
 </resources>

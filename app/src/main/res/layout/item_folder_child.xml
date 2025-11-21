@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingStart="40dp"
-    android:paddingVertical="12dp"
+    android:paddingStart="60dp"
+    android:paddingEnd="16dp"
+    android:paddingVertical="14dp"
     android:background="?attr/selectableItemBackground"
     android:gravity="center_vertical">
 
@@ -15,8 +16,9 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:src="@drawable/ic_topic"
-        app:tint="@color/light_purple"
-        android:layout_marginEnd="16dp" />
+        app:tint="@color/primary_tech_blue"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="하위 항목 아이콘"/>
 
     <TextView
         android:id="@+id/tv_child_title"
@@ -25,16 +27,16 @@
         android:layout_height="wrap_content"
         android:text="하위 폴더 이름"
         android:textSize="14sp"
-        android:textColor="@color/black"/>
+        android:textColor="@color/text_title" />
 
     <ImageButton
         android:id="@+id/btn_child_options"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:src="@drawable/ic_more_vert"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="폴더 옵션"
-        app:tint="@color/black"
-        android:padding="8dp" />
+        android:padding="6dp"
+        app:tint="@color/sub_text_color"
+        android:contentDescription="옵션 더보기" />
 
 </LinearLayout>

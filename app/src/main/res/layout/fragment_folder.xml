@@ -5,42 +5,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background_gray"
-    tools:context=".ui.folder.FolderFragment">
+    android:background="@color/app_background"
+    android:paddingHorizontal="24dp">
 
-    <TextView
-        android:id="@+id/tv_folder_title"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout_header"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="폴더"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"   app:layout_constraintVertical_bias="0.3"
-        android:elevation="2dp" /> <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/recycler_folder_list"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_marginTop="16dp"
-    android:paddingHorizontal="16dp"
-    android:paddingBottom="80dp"
-    android:clipToPadding="false"
-    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-    app:layout_constraintTop_toBottomOf="@id/tv_folder_title" app:layout_constraintBottom_toBottomOf="parent"
-    tools:listitem="@layout/item_folder_group" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="File Manager"
+            android:textColor="@color/text_body"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif-black"
+            android:text="My Projects"
+            android:letterSpacing="-0.02"
+            android:textColor="@color/text_title"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_folder_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_header"
+        tools:listitem="@layout/item_folder_group" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_folder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="24dp"
         android:src="@drawable/ic_add"
-        app:backgroundTint="@color/light_purple"
+        app:backgroundTint="@color/primary_tech_blue"
+        app:tint="@color/white"
+        app:elevation="8dp"
+        app:pressedTranslationZ="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@android:color/white" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
