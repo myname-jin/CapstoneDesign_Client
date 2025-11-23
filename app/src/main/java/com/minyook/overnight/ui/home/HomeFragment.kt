@@ -1,32 +1,66 @@
 package com.minyook.overnight.ui.home
 
-
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
-import com.minyook.overnight.R
+import com.minyook.overnight.databinding.FragmentHomeBinding
+import com.minyook.overnight.ui.mainscrean.PresentationInfoActivity
 
+class HomeFragment : Fragment() {
 
-/**
- * HomeFragment:
- * 1. '+' 버튼(FAB) 클릭 이벤트를 처리합니다.
- * 2. 클릭 시 BottomSheet 대신 PopupWindow를 띄웁니다.
- * 3. 팝업창의 "파일 업로드"를 누르면 PresentationInfoActivity로 이동합니다.
- */
-class HomeFragment : Fragment() { // 👈 OnOptionClickListener 인터페이스 구현부 삭제
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // fragment_home.xml 레이아웃을 이 Fragment에 연결합니다.
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
-/*
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-    }*/
+
+        // 시스템 UI 숨기기 (전체화면 모드)
+        hideSystemUI()
+
+        setupListeners()
+    }
+
+    // 앱 껐다 켜도 다시 숨김
+    override fun onResume() {
+        super.onResume()
+        hideSystemUI()
+    }
+
+    private fun hideSystemUI() {
+        val window = requireActivity().window
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+    }
+
+    private fun setupListeners() {
+        binding.cardMainAction.setOnClickListener {
+            val intent = Intent(requireContext(), PresentationInfoActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.cardScript.setOnClickListener { }
+        binding.cardGuide.setOnClickListener { }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
