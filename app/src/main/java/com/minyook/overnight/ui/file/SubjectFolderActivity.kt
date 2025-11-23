@@ -62,9 +62,15 @@ class SubjectFolderActivity : AppCompatActivity() {
 
     private fun showFolderSelectionSheet() {
         val dialog = BottomSheetDialog(this)
-        val view = layoutInflater.inflate(R.layout.dialog_selection_list, null)
-        view.findViewById<TextView>(R.id.tv_selection_title).text = "과목 폴더 선택"
-        val recyclerView = view.findViewById<RecyclerView>(R.id.rv_selection_list)
+
+        // 1. 새 레이아웃 인플레이트
+        val view = layoutInflater.inflate(R.layout.layout_folder_bottom_sheet, null)
+
+        // 2. 새 RecyclerView ID 사용
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_folder_selection)
+
+        // NOTE: 새 레이아웃에는 tv_selection_title이 없으므로, title 설정 부분은 제거합니다.
+        // view.findViewById<TextView>(R.id.tv_selection_title).text = "과목 폴더 선택"
 
         val adapter = SubjectFolderAdapter(folderList) { selectedFolder ->
             binding.etFolderPath.setText(selectedFolder.title)
