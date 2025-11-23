@@ -1,7 +1,6 @@
 package com.minyook.overnight.ui.file
 
 import android.content.ContentValues
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -9,6 +8,9 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.itextpdf.io.font.PdfEncodings
@@ -16,18 +18,14 @@ import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.kernel.pdf.canvas.draw.SolidLine
 import com.itextpdf.layout.Document
-import com.itextpdf.layout.element.Cell
 import com.itextpdf.layout.element.LineSeparator
 import com.itextpdf.layout.element.Paragraph
-import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.TextAlignment
-import com.itextpdf.layout.properties.UnitValue
 import com.minyook.overnight.data.model.CriterionResult
 import com.minyook.overnight.databinding.ActivityAnalysisResultBinding
-import com.minyook.overnight.ui.custom.MultiSegmentDonutChart // ⭐️ 커스텀 차트 임포트
+import com.minyook.overnight.ui.custom.MultiSegmentDonutChart
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.OutputStream
-import kotlin.random.Random
 
 class AnalysisResultActivity : AppCompatActivity() {
 
@@ -51,6 +49,9 @@ class AnalysisResultActivity : AppCompatActivity() {
         binding = ActivityAnalysisResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // ★ [핵심] 앱 실행 시 내비게이션 바 숨기기 (전체화면)
+        hideSystemUI()
+
         db = FirebaseFirestore.getInstance()
 
         contentId = intent.getStringExtra("contentId")
@@ -66,6 +67,22 @@ class AnalysisResultActivity : AppCompatActivity() {
         }
 
         setupButtons()
+    }
+
+    // ★ [핵심] 화면이 다시 보일 때(다른 창 갔다 왔을 때)도 숨김 모드 유지
+    override fun onResume() {
+        super.onResume()
+        hideSystemUI()
+    }
+
+    // ★ [핵심 기능] 시스템 바(상태바, 내비게이션 바) 강제 숨김 함수
+    private fun hideSystemUI() {
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        // 스와이프 시 잠깐 나타났다가 다시 사라지게 설정
+        windowInsetsController.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        // 상단 상태바 & 하단 내비게이션바 모두 숨김
+        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
     }
 
     private fun fetchContentName() {
@@ -117,29 +134,15 @@ class AnalysisResultActivity : AppCompatActivity() {
     }
 
     private fun updateUI(overallFeedback: String) {
-        // 1. 총점 텍스트 설정
         binding.tvTotalScore.text = "$totalScore / 100"
-
-        // 2. 중앙 텍스트 (등급 대신 점수 숫자 표시)
         binding.tvCenterScoreValue.text = totalScore.toString()
-
-        // 3. 전체 피드백
         binding.tvTotalSummary.text = overallFeedback
-
-        // 4. ⭐️ [수정됨] 커스텀 차트 그리기
         setupDonutChart()
-
-        // 5. 리스트 설정
         setupRecyclerView()
     }
 
-    // ⭐️ [신규 함수] 커스텀 뷰에 데이터 전달
     private fun setupDonutChart() {
-        // XML의 <com.minyook.overnight.ui.custom.MultiSegmentDonutChart ... id="pie_chart">
-        // ViewBinding이 자동으로 타입을 인식하지만, 혹시 모르니 타입 확인
         val donutChart = binding.pieChart
-
-        // 데이터 리스트를 넘겨주면 onDraw가 호출되어 그려집니다.
         donutChart.setCriteria(resultList)
     }
 
@@ -162,9 +165,7 @@ class AnalysisResultActivity : AppCompatActivity() {
         binding.btnMyPage.setOnClickListener { finish() }
     }
 
-    // ----------------------------------------------------------------
-    // 엑셀 저장 (기존 로직 유지)
-    // ----------------------------------------------------------------
+    // --- 엑셀 저장 ---
     private fun saveExcel() {
         if (currentTopicName.isEmpty()) {
             Toast.makeText(this, "주제 정보가 없습니다.", Toast.LENGTH_SHORT).show()
@@ -245,9 +246,7 @@ class AnalysisResultActivity : AppCompatActivity() {
         }
     }
 
-    // ----------------------------------------------------------------
-    // PDF 저장 (기존 로직 유지)
-    // ----------------------------------------------------------------
+    // --- PDF 저장 ---
     private fun savePdf() {
         try {
             var finalTeamName = currentTeamName.trim()

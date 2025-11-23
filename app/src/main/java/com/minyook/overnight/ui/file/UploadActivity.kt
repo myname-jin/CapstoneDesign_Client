@@ -9,6 +9,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.minyook.overnight.data.model.AnalysisResponse
@@ -29,12 +32,8 @@ class UploadActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUploadBinding
     private var selectedFileUri: Uri? = null
-
-    // 이전 화면에서 받은 ID
     private var contentId: String? = null
     private var topicId: String? = null
-
-    // DB (채점 기준 불러오기용)
     private lateinit var db: FirebaseFirestore
 
     private val filePickerLauncher =
@@ -50,12 +49,30 @@ class UploadActivity : AppCompatActivity() {
         binding = ActivityUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        db = FirebaseFirestore.getInstance()
+        // ★ [추가] 앱 실행 시 내비게이션 바 숨기기
+        hideSystemUI()
 
+        db = FirebaseFirestore.getInstance()
         contentId = intent.getStringExtra("contentId")
         topicId = intent.getStringExtra("topicId")
 
         setupListeners()
+    }
+
+    // ★ [추가] 화면이 다시 보일 때(다른 앱 갔다 왔을 때)도 숨김 유지
+    override fun onResume() {
+        super.onResume()
+        hideSystemUI()
+    }
+
+    // ★ [핵심 기능] 시스템 바(상태바, 내비게이션 바) 숨기기 함수
+    private fun hideSystemUI() {
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        // 스와이프 시 잠깐 나타났다가 다시 사라지게 설정
+        windowInsetsController.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        // 상태바와 내비게이션바 모두 숨김
+        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
     }
 
     private fun setupListeners() {
@@ -65,7 +82,6 @@ class UploadActivity : AppCompatActivity() {
 
         binding.btnAnalyze.setOnClickListener {
             if (selectedFileUri != null && contentId != null && topicId != null) {
-                // 1. 먼저 DB에서 채점 기준을 가져오고 -> 업로드를 시작합니다.
                 fetchCriteriaAndUpload(selectedFileUri!!)
             } else {
                 Toast.makeText(this, "오류: 필요한 정보가 없습니다.", Toast.LENGTH_SHORT).show()
@@ -73,9 +89,9 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 
-    // ---------------------------------------------------------
-    // 1단계: Firestore에서 채점 기준(Standard) 가져오기
-    // ---------------------------------------------------------
+    // ... (이하 fetchCriteriaAndUpload, uploadVideoToServer 등 기존 로직 유지) ...
+
+    // 1단계: Firestore에서 채점 기준 가져오기
     private fun fetchCriteriaAndUpload(uri: Uri) {
         binding.btnAnalyze.isEnabled = false
         binding.btnAnalyze.text = "채점 기준 불러오는 중..."
@@ -85,10 +101,7 @@ class UploadActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
-                    // DB에 저장된 Map 리스트를 가져옴
                     val standardsMap = document.get("standards") as? List<HashMap<String, Any>>
-
-                    // 서버 포맷(ScoringCriteria)으로 변환
                     val criteriaList = ArrayList<ScoringCriteria>()
                     if (standardsMap != null) {
                         for (map in standardsMap) {
@@ -98,10 +111,7 @@ class UploadActivity : AppCompatActivity() {
                             criteriaList.add(ScoringCriteria(name, score, desc))
                         }
                     }
-
-                    // 기준을 다 가져왔으니 이제 진짜 업로드 시작!
                     uploadVideoToServer(uri, criteriaList)
-
                 } else {
                     Toast.makeText(this, "채점 기준을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
                     resetButton()
@@ -113,13 +123,9 @@ class UploadActivity : AppCompatActivity() {
             }
     }
 
-    // ---------------------------------------------------------
-    // 2단계: FastAPI 서버로 영상과 기준 전송하기 (Retrofit)
-    // ---------------------------------------------------------
     private fun uploadVideoToServer(uri: Uri, criteriaList: List<ScoringCriteria>) {
         binding.btnAnalyze.text = "서버로 전송 중..."
 
-        // 1. Uri -> 실제 파일(File)로 변환 (캐시 폴더에 복사)
         val file = getFileFromUri(uri)
         if (file == null) {
             Toast.makeText(this, "파일 변환 실패", Toast.LENGTH_SHORT).show()
@@ -127,17 +133,13 @@ class UploadActivity : AppCompatActivity() {
             return
         }
 
-        // 2. RequestBody 생성 (영상 파일)
-        // "video/*" 또는 "multipart/form-data"
         val requestFile = file.asRequestBody("video/mp4".toMediaTypeOrNull())
         val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
-        // 3. RequestBody 생성 (채점 기준 JSON 문자열)
         val gson = Gson()
-        val criteriaJson = gson.toJson(criteriaList) // 리스트를 JSON 문자열로 변환
+        val criteriaJson = gson.toJson(criteriaList)
         val criteriaBody = criteriaJson.toRequestBody("text/plain".toMediaTypeOrNull())
 
-        // 4. Retrofit 전송 시작
         RetrofitClient.instance.analyzeVideo(body, criteriaBody)
             .enqueue(object : Callback<AnalysisResponse> {
                 override fun onResponse(
@@ -145,13 +147,11 @@ class UploadActivity : AppCompatActivity() {
                     response: Response<AnalysisResponse>
                 ) {
                     if (response.isSuccessful && response.body() != null) {
-                        // 성공! Job ID를 받았습니다.
                         val jobId = response.body()!!.jobId
                         Log.d("Upload", "Job ID: $jobId")
 
-                        // 로딩 화면으로 이동 (Job ID 전달)
                         val intent = Intent(this@UploadActivity, AnalysisProgressActivity::class.java)
-                        intent.putExtra("jobId", jobId) // ⭐ 핵심: 서버 작업 ID
+                        intent.putExtra("jobId", jobId)
                         intent.putExtra("contentId", contentId)
                         intent.putExtra("topicId", topicId)
                         startActivity(intent)
@@ -170,17 +170,12 @@ class UploadActivity : AppCompatActivity() {
             })
     }
 
-    // ---------------------------------------------------------
-    // 유틸리티: Uri -> 임시 파일 변환
-    // ---------------------------------------------------------
     private fun getFileFromUri(uri: Uri): File? {
         try {
             val inputStream = contentResolver.openInputStream(uri) ?: return null
             val fileName = getFileNameFromUri(uri)
-            // 앱 캐시 폴더에 임시 파일 생성
             val tempFile = File(cacheDir, fileName)
             val outputStream = FileOutputStream(tempFile)
-
             inputStream.use { input ->
                 outputStream.use { output ->
                     input.copyTo(output)
