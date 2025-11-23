@@ -130,7 +130,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textColorHint="@color/dark_gray"
+                    android:textColor="@color/dark_gray"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -152,7 +154,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textColorHint="@color/dark_gray"
+                    android:textColor="@color/dark_gray"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout

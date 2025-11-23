@@ -82,6 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="팀 이름 또는 멤버"
+                    android:textColorHint="@color/dark_gray"
                     android:textColor="@color/text_title"
                     android:inputType="text"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -115,6 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="발표 제목"
+                    android:textColorHint="@color/dark_gray"
                     android:textColor="@color/text_title"
                     android:inputType="text"/>
             </com.google.android.material.textfield.TextInputLayout>
