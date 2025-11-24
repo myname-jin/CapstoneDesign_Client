@@ -32,7 +32,9 @@ class UploadActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUploadBinding
     private var selectedFileUri: Uri? = null
-    private var contentId: String? = null
+    // [수정 1] userId 변수 추가 및 contentId 변수 유지
+    private var userId: String? = null    // 추가됨
+    private var contentId: String? = null // (폴더 ID 역할)
     private var topicId: String? = null
     private lateinit var db: FirebaseFirestore
 
@@ -49,12 +51,18 @@ class UploadActivity : AppCompatActivity() {
         binding = ActivityUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // ★ [추가] 앱 실행 시 내비게이션 바 숨기기
         hideSystemUI()
 
         db = FirebaseFirestore.getInstance()
-        contentId = intent.getStringExtra("contentId")
+
+        // [수정 2] ID들 받기 (키 이름 불일치 해결)
+        // PresentationInfoActivity에서 "folderId"로 보냈으므로 "folderId"로 받아야 합니다.
+        userId = intent.getStringExtra("userId")         //  User ID 수신
+        contentId = intent.getStringExtra("folderId")    // "contentId" -> "folderId"로 변경해서 받기
         topicId = intent.getStringExtra("topicId")
+
+        // (디버깅용 로그)
+        Log.d("UploadActivity", "Received IDs - User: $userId, Folder: $contentId, Topic: $topicId")
 
         setupListeners()
     }
@@ -96,13 +104,24 @@ class UploadActivity : AppCompatActivity() {
         binding.btnAnalyze.isEnabled = false
         binding.btnAnalyze.text = "채점 기준 불러오는 중..."
 
-        db.collection("contents").document(contentId!!)
+        // ⚠️ 방어 코드: userId가 없으면 진행 불가
+        if (userId == null) {
+            Toast.makeText(this, "유저 정보가 없어 기준을 불러올 수 없습니다.", Toast.LENGTH_SHORT).show()
+            resetButton()
+            return
+        }
+
+        // [수정] 경로 변경: contents -> user/{uid}/folders/{folderId}/topics/{topicId}
+        // (참고: 여기서 contentId 변수는 folderId 값을 담고 있습니다)
+        db.collection("user").document(userId!!)
+            .collection("folders").document(contentId!!)
             .collection("topics").document(topicId!!)
             .get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
                     val standardsMap = document.get("standards") as? List<HashMap<String, Any>>
                     val criteriaList = ArrayList<ScoringCriteria>()
+
                     if (standardsMap != null) {
                         for (map in standardsMap) {
                             val name = map["standardName"] as? String ?: ""
@@ -111,9 +130,10 @@ class UploadActivity : AppCompatActivity() {
                             criteriaList.add(ScoringCriteria(name, score, desc))
                         }
                     }
+                    // 기준을 찾았으면 서버로 전송 시작
                     uploadVideoToServer(uri, criteriaList)
                 } else {
-                    Toast.makeText(this, "채점 기준을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "채점 기준을 찾을 수 없습니다. (경로 확인 필요)", Toast.LENGTH_SHORT).show()
                     resetButton()
                 }
             }
@@ -126,19 +146,18 @@ class UploadActivity : AppCompatActivity() {
     private fun uploadVideoToServer(uri: Uri, criteriaList: List<ScoringCriteria>) {
         binding.btnAnalyze.text = "서버로 전송 중..."
 
-        val file = getFileFromUri(uri)
+        val file = getFileFromUri(uri) ?: return // (앞부분 생략됨)
         if (file == null) {
             Toast.makeText(this, "파일 변환 실패", Toast.LENGTH_SHORT).show()
             resetButton()
             return
         }
 
+
         val requestFile = file.asRequestBody("video/mp4".toMediaTypeOrNull())
         val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
-
         val gson = Gson()
-        val criteriaJson = gson.toJson(criteriaList)
-        val criteriaBody = criteriaJson.toRequestBody("text/plain".toMediaTypeOrNull())
+        val criteriaBody = gson.toJson(criteriaList).toRequestBody("text/plain".toMediaTypeOrNull())
 
         RetrofitClient.instance.analyzeVideo(body, criteriaBody)
             .enqueue(object : Callback<AnalysisResponse> {
@@ -150,10 +169,12 @@ class UploadActivity : AppCompatActivity() {
                         val jobId = response.body()!!.jobId
                         Log.d("Upload", "Job ID: $jobId")
 
+                        // ⭐️ [핵심 수정] 다음 화면으로 UserID와 FolderID(contentId)를 전달
                         val intent = Intent(this@UploadActivity, AnalysisProgressActivity::class.java)
                         intent.putExtra("jobId", jobId)
-                        intent.putExtra("contentId", contentId)
-                        intent.putExtra("topicId", topicId)
+                        intent.putExtra("userId", userId)       // ⭐️ User ID 전달 필수
+                        intent.putExtra("contentId", contentId) // Folder ID 전달
+                        intent.putExtra("topicId", topicId)     // Topic ID 전달
                         startActivity(intent)
                         finish()
                     } else {
